@@ -16,7 +16,7 @@ namespace REST_WCF_TEMPLATE_DATABASE
         public string Titel { get; set; }
 
         [DataMember]
-        public string Rating { get; set; }
+        public int Rating { get; set; }
 
 
 
