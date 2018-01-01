@@ -21,7 +21,7 @@ namespace REST_WCF_TEMPLATE_DATABASE
                 ResponseFormat = WebMessageFormat.Json,
                 UriTemplate = "movies")
         ]
-        List<Movies> GetMovies();
+        List<Movie> GetMovies();
 
 
         //Get by id
@@ -30,7 +30,7 @@ namespace REST_WCF_TEMPLATE_DATABASE
                 ResponseFormat = WebMessageFormat.Json,
                 UriTemplate = "movie/{id}")
         ]
-        Movies GetOneMovie(String id);
+        Movie GetOneMovie(String id);
 
         //Post/create
         [WebInvoke(
@@ -39,7 +39,7 @@ namespace REST_WCF_TEMPLATE_DATABASE
                 //ResponseFormat = WebMessageFormat.Json,
                 UriTemplate = "movies")
         ]
-        void AddMovie(Movies newMovie);
+        void AddMovie(Movie newMovie);
 
         //Delete
         [WebInvoke(
@@ -47,7 +47,7 @@ namespace REST_WCF_TEMPLATE_DATABASE
                 ResponseFormat = WebMessageFormat.Json,
                 UriTemplate = "movies?id={id}")
         ]
-        Movies DeleteMovie(int id);
+        Movie DeleteMovie(int id);
 
         //Update/Put
         [WebInvoke(
@@ -56,7 +56,7 @@ namespace REST_WCF_TEMPLATE_DATABASE
                ResponseFormat = WebMessageFormat.Json,
                UriTemplate = "movies")
        ]
-        Movies UpdateMovie(Movies myMovie);
+        Movie UpdateMovie(Movie myMovie);
 
 
 
