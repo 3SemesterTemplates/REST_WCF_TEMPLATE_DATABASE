@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
@@ -13,22 +14,51 @@ namespace REST_WCF_TEMPLATE_DATABASE
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class Service1 : IService1
     {
+        private Model1 catchdb = new Model1();
+
         #region Connection string
         //Data Source=natascha.database.windows.net;Initial Catalog=School;Integrated Security=False;User ID=nataschajakobsen;Password=********;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
         private static string connectingString =
                "Server=tcp:natascha.database.windows.net,1433;Initial Catalog=School;Persist Security Info=False;User ID=nataschajakobsen;Password=Roskilde4000;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         #endregion
 
+        #region POST
         public void AddMovie(Movie newMovie)
         {
-            throw new NotImplementedException();
-        }
+            SqlConnection conn = new SqlConnection(connectingString);
+            SqlCommand command = new SqlCommand();
 
-        public Movie DeleteMovie(int id)
+            command.Connection = conn;
+            conn.Open();
+
+            command.CommandText = @"INSERT INTO Movies(Titel, Rating) 
+                                VALUES (@Titel, @Rating)";
+
+            command.Parameters.AddWithValue("@Titel", newMovie.Titel);
+            command.Parameters.AddWithValue("@Rating", newMovie.Rating);
+
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+        #endregion
+
+        #region DELETE
+        public void DeleteMovie(int id)
         {
-            throw new NotImplementedException();
-        }
+            SqlConnection conn = new SqlConnection(connectingString);
+            SqlCommand cmd = new SqlCommand();
 
+            cmd.Connection = conn;
+            conn.Open();
+
+            cmd.CommandText = @"DELETE FROM Movies WHERE Movies.id = @id";
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+        #endregion
+
+        #region GET
         public List<Movie> GetMovies()
         {
             List<Movie> liste = new List<Movie>();
@@ -53,15 +83,38 @@ namespace REST_WCF_TEMPLATE_DATABASE
             }
             return liste; 
         }
+        #endregion
 
+        #region Get One Movie Virker ikke 
         public Movie GetOneMovie(string id)
         {
-            throw new NotImplementedException();
+            int idint = Int32.Parse(id);
+            return catchdb.Catches.ToList().Find(c => c.Id == idint);
         }
+        #endregion
 
-        public Movie UpdateMovie(Movie myMovie)
+        #region PUT
+        public void UpdateMovie(Movie myMovie, string id)
         {
-            throw new NotImplementedException();
+            SqlConnection conn = new SqlConnection(connectingString);
+            SqlCommand command = new SqlCommand();
+
+            command.Connection = conn;
+            conn.Open();
+
+            command.CommandText = @"UPDATE Movies 
+                                SET Titel = @titel, 
+                                    Rating = @rating, 
+                                WHERE Movies.Id = @id";
+
+            command.Parameters.AddWithValue("@id", myMovie.Id);
+            command.Parameters.AddWithValue("@titel", myMovie.Titel);
+            command.Parameters.AddWithValue("@rating", myMovie.Rating);
+
+
+            command.ExecuteNonQuery();
+            conn.Close();
         }
+        #endregion
     }
 }

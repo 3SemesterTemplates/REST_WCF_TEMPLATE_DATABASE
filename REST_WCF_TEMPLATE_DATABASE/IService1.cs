@@ -47,7 +47,7 @@ namespace REST_WCF_TEMPLATE_DATABASE
                 ResponseFormat = WebMessageFormat.Json,
                 UriTemplate = "movies?id={id}")
         ]
-        Movie DeleteMovie(int id);
+        void DeleteMovie(int id);
 
         //Update/Put
         [WebInvoke(
@@ -56,7 +56,7 @@ namespace REST_WCF_TEMPLATE_DATABASE
                ResponseFormat = WebMessageFormat.Json,
                UriTemplate = "movies")
        ]
-        Movie UpdateMovie(Movie myMovie);
+        void UpdateMovie(Movie myMovie, string id);
 
 
 
