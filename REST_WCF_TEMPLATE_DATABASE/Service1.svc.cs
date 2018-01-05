@@ -8,13 +8,15 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
 
+//EKSAMEN
+
 namespace REST_WCF_TEMPLATE_DATABASE
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in code, svc and config file together.
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class Service1 : IService1
     {
-        private Model1 catchdb = new Model1();
+        private Model1 moviedb = new Model1();
 
         #region Connection string
         //Data Source=natascha.database.windows.net;Initial Catalog=School;Integrated Security=False;User ID=nataschajakobsen;Password=********;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
@@ -25,11 +27,11 @@ namespace REST_WCF_TEMPLATE_DATABASE
         #region POST
         public void AddMovie(Movie newMovie)
         {
-            SqlConnection conn = new SqlConnection(connectingString);
-            SqlCommand command = new SqlCommand();
+            SqlConnection conn = new SqlConnection(connectingString); //laver en ny instans af SqlConnection og kalder den conn.
+            SqlCommand command = new SqlCommand(); //ny instans af SqlCommand og kalder den command
 
             command.Connection = conn;
-            conn.Open();
+            conn.Open(); //åbnes forbindelsen 
 
             command.CommandText = @"INSERT INTO Movies(Titel, Rating) 
                                 VALUES (@Titel, @Rating)";
@@ -37,7 +39,7 @@ namespace REST_WCF_TEMPLATE_DATABASE
             command.Parameters.AddWithValue("@Titel", newMovie.Titel);
             command.Parameters.AddWithValue("@Rating", newMovie.Rating);
 
-            command.ExecuteNonQuery();
+            command.ExecuteNonQuery(); //udfører SQL statement "command"
             conn.Close();
         }
         #endregion
@@ -61,7 +63,7 @@ namespace REST_WCF_TEMPLATE_DATABASE
         #region GET
         public List<Movie> GetMovies()
         {
-            List<Movie> liste = new List<Movie>();
+            List<Movie> liste = new List<Movie>(); //ny instans af movie
             using (SqlConnection conn = new SqlConnection(connectingString))
             {
                 conn.Open();
@@ -89,7 +91,7 @@ namespace REST_WCF_TEMPLATE_DATABASE
         public Movie GetOneMovie(string id)
         {
             int idint = Int32.Parse(id);
-            return catchdb.Catches.ToList().Find(c => c.Id == idint);
+            return moviedb.Movies.ToList().Find(c => c.Id == idint);
         }
         #endregion
 

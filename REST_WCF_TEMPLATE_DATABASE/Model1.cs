@@ -12,13 +12,12 @@
         {
         }
 
-        public virtual DbSet<Movie> Catches { get; set; }
+        public virtual DbSet<Movie> Movies { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Movie>()
                 .Property(e => e.Id);
-            
         }
     }
 }
